@@ -20,17 +20,15 @@ const ECommerce: React.FC = () => {
         <ChartOne />
         <ChartTwo />
         <ChartThree />
-        <MapOne />
+        <MapTwo />
        
      
 
-        <div className="col-span-12 xl:col-span-8">
-          <TableOne />
-          
-        </div>
-        <ChatCard />
+      
       </div>
+      <div className="mt-4">
       <TimeTableComponent />
+      </div>
     </>
   );
 };

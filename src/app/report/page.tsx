@@ -1,5 +1,5 @@
 import React from "react";
-import Reports from "@/components/Report";
+import TimeTableComponent from "@/components/Tables/countdatatable";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
 
 
@@ -8,7 +8,7 @@ const ReportPage= () => {
     <DefaultLayout>
       <div className=" ">
         
-       <Reports />
+      <TimeTableComponent />
       </div>
     </DefaultLayout>
   );

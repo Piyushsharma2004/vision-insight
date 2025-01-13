@@ -11,7 +11,7 @@ import MapTwo from "@/components/Maps/MapTwo";
 import ClassroomMonitor from "../Box/ClassroomsBox";
 import TimeTableComponent from "../Tables/countdatatable";
 
-const ECommerce: React.FC = () => {
+const ViDashboard: React.FC = () => {
   return (
     <>
       
@@ -33,4 +33,4 @@ const ECommerce: React.FC = () => {
   );
 };
 
-export default ECommerce;
+export default ViDashboard;

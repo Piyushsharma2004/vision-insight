@@ -46,7 +46,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Dashboard",
-        route: "/",
+        route: "/Dashboard",
        
       },
       {
@@ -54,14 +54,14 @@ const menuGroups = [
           <HiOutlineDocumentReport className="w-6 h-6"/>
         ),
         label: "Reports",
-        route: "/report",
+        route: "/Dashboard/report",
       },
       {
         icon: (
           <MdInsights className="w-6 h-6"/>
         ),
         label: "Insights",
-        route: "/profile",
+        route: "/Dashboard/insights",
       },
      
       {
@@ -69,7 +69,7 @@ const menuGroups = [
           <SiLivewire className="w-6 h-6"/>
         ),
         label: "Live Report",
-        route: "/",
+        route: "/Dashboard/live-Report",
        
       },
       {
@@ -77,7 +77,7 @@ const menuGroups = [
           <IoMapSharp className="w-6 h-6"/>
         ),
         label: "Map Insights",
-        route: "/",
+        route: "/Dashboard/Map",
        
       },
     
@@ -91,7 +91,7 @@ const menuGroups = [
         < RiAdminFill className="w-6 h-6"/>  
         ),
         label: "Admin",
-        route: "/",
+        route: "/Dashboard/Admin",
         
       },
       {
@@ -101,9 +101,8 @@ const menuGroups = [
         label: "More Features",
         route: "#",
         children: [
-          { label: "Help", route: "/#" },
-          { label: "Parking Management", route: "/1" },
-          { label: "Facial Recognition", route: "/2" },
+          { label: "Parking Management", route: "/Dashboard/parking-management" },
+          { label: "Help", route: "/Dashboard/help" },
         ],
       },
     

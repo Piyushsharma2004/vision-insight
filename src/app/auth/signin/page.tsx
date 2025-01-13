@@ -13,62 +13,59 @@ export const metadata: Metadata = {
 
 const SignIn: React.FC = () => {
   return (
-    <DefaultLayout>
-      <Breadcrumb pageName="Sign In" />
+    <div className="flex min-h-screen  items-center justify-center bg-gray-50 dark:bg-gray-dark">
+      <div className="flex w-full h-[90vh] max-w-6xl overflow-hidden rounded-lg bg-white shadow-lg dark:bg-dark-3">
+        {/* Left Section (Sign-in Form) */}
+        <div className="flex w-full  flex-col p-6 sm:p-12 lg:w-1/2 xl:p-16">
+          <Signin />
+        </div>
 
-      <div className="rounded-[10px] bg-white shadow-1 dark:bg-gray-dark dark:shadow-card">
-        <div className="flex flex-wrap items-center">
-          <div className="w-full xl:w-1/2">
-            <div className="w-full p-4 sm:p-12.5 xl:p-15">
-              <Signin />
-            </div>
+        {/* Right Section (Illustration and Branding) */}
+        <div className="hidden w-1/2  bg-gradient-to-br from-red-800 to-red-500 p-12 lg:flex lg:flex-col lg:justify-between">
+          <div>
+            <Link href="/">
+              <Image
+                className="hidden dark:block"
+                src="/images/logo/logo-white.png"
+                alt="Logo"
+                width={176}
+                height={32}
+              />
+              <Image
+                className="dark:hidden"
+                src="/images/logo/logo-white.png"
+                alt="Logo"
+                width={176}
+                height={32}
+              />
+            </Link>
           </div>
 
-          <div className="hidden w-full p-7.5 xl:block xl:w-1/2">
-            <div className="custom-gradient-1 overflow-hidden rounded-2xl px-12.5 pt-12.5 dark:!bg-dark-2 dark:bg-none">
-              <Link className=" inline-block" href="/">
-                <Image
-                  className="hidden dark:block"
-                  src={"/images/logo/logo.png"}
-                  alt="Logo"
-                  width={176}
-                  height={32}
-                />
-                <Image
-                  className="dark:hidden"
-                  src={"/images/logo/logo-dark.png"}
-                  alt="Logo"
-                  width={176}
-                  height={32}
-                />
-              </Link>
-              <p className="mb-3 text-xl font-medium text-dark dark:text-white">
-                Sign in to your account
-              </p>
+          <div className="mt-8">
+            <p className="mb-3 text-xl font-medium text-white">
+              Sign in to your account
+            </p>
+            <h1 className="mb-4 text-3xl font-bold text-white">
+              Welcome Back!
+            </h1>
+            <p className="max-w-sm text-white/80">
+              Please sign in to your account by completing the necessary fields
+              below.
+            </p>
+          </div>
 
-              <h1 className="mb-4 text-2xl font-bold text-dark dark:text-white sm:text-heading-3">
-                Welcome Back!
-              </h1>
-
-              <p className="w-full max-w-[375px] font-medium text-dark-4 dark:text-dark-6">
-                Please sign in to your account by completing the necessary
-                fields below
-              </p>
-
-              <div className="mt-31">
-                <Image
-                  src={"/images/grids/grid-02.svg"}
-                  alt="Logo"
-                  width={405}
-                  height={325}
-                  className="mx-auto dark:opacity-30"
-                />
-              </div>
-            </div>
+          <div className="mt-auto">
+            <Image
+              src="/images/grids/grid-02.svg"
+              alt="Illustration"
+              width={405}
+              height={325}
+              className="mx-auto opacity-50"
+            />
           </div>
         </div>
       </div>
-    </DefaultLayout>
+    </div>
   );
 };
 

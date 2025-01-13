@@ -1,12 +1,32 @@
-// Define a type for errors
-/**
- * @typedef {Object} AuthError
- * @property {boolean} success - Indicates if the operation was successful (always `false` for errors)
- * @property {string} error - Error message describing the issue
- */
-
-// Hardcoded users (In real apps, this would be in a database)
-const USERS = {
+// Define types and interfaces
+interface User {
+    password: string;
+    role: UserRole;
+    name: string;
+  }
+  
+  interface UserData {
+    role: UserRole;
+    name: string;
+    username: string;
+  }
+  
+  type UserRole = 'admin' | 'user';
+  
+  interface AuthSuccess {
+    success: true;
+    user: UserData;
+  }
+  
+  interface AuthError {
+    success: false;
+    error: string;
+  }
+  
+  type AuthResult = AuthSuccess | AuthError;
+  
+  // Type-safe user records
+  const USERS: Record<string, User> = {
     'Admin@123': {
       password: '123321',
       role: 'admin',
@@ -21,11 +41,14 @@ const USERS = {
   
   /**
    * Validate user credentials
-   * @param {string} username
-   * @param {string} password
-   * @returns {Object|null} User data or null if invalid
+   * @param username - User's email/username
+   * @param password - User's password
+   * @returns User data or null if invalid
    */
-  export function validateCredentials(username, password) {
+  export function validateCredentials(
+    username: string,
+    password: string
+  ): UserData | null {
     const user = USERS[username];
     if (user && user.password === password) {
       // Don't send password back in the response
@@ -37,9 +60,9 @@ const USERS = {
   
   /**
    * Check if user is authenticated
-   * @returns {boolean}
+   * @returns Boolean indicating authentication status
    */
-  export function checkAuth() {
+  export function checkAuth(): boolean {
     if (typeof window !== 'undefined') {
       const session = localStorage.getItem('user_session');
       return !!session;
@@ -49,51 +72,67 @@ const USERS = {
   
   /**
    * Get current user data
-   * @returns {Object|null}
+   * @returns Current user data or null if not authenticated
    */
-  export function getCurrentUser() {
+  export function getCurrentUser(): UserData | null {
     if (typeof window !== 'undefined') {
       const session = localStorage.getItem('user_session');
-      return session ? JSON.parse(session) : null;
+      try {
+        return session ? (JSON.parse(session) as UserData) : null;
+      } catch (error) {
+        console.error('Error parsing user session:', error);
+        return null;
+      }
     }
     return null;
   }
   
   /**
    * Login user
-   * @param {string} username
-   * @param {string} password
-   * @returns {Object|AuthError} Result with success status and user data or error
+   * @param username - User's email/username
+   * @param password - User's password
+   * @returns Authentication result with success status and user data or error
    */
-  export function loginUser(username, password) {
-    const userData = validateCredentials(username, password);
+  export function loginUser(username: string, password: string): AuthResult {
+    try {
+      const userData = validateCredentials(username, password);
   
-    if (userData) {
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('user_session', JSON.stringify(userData));
+      if (userData) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user_session', JSON.stringify(userData));
+        }
+        return { success: true, user: userData };
       }
-      return { success: true, user: userData };
-    }
   
-    return { success: false, error: 'Invalid credentials' };
+      return { success: false, error: 'Invalid credentials' };
+    } catch (error) {
+      return { 
+        success: false, 
+        error: `Login failed: ${error instanceof Error ? error.message : 'Unknown error'}`
+      };
+    }
   }
   
   /**
    * Logout user
+   * @throws Error if logout fails
    */
-  export function logoutUser() {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('user_session');
+  export function logoutUser(): void {
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('user_session');
+      }
+    } catch (error) {
+      throw new Error(`Logout failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   }
   
   /**
    * Check if user has specific role
-   * @param {string} requiredRole
-   * @returns {boolean}
+   * @param requiredRole - Role to check for
+   * @returns Boolean indicating if user has the required role
    */
-  export function hasRole(requiredRole) {
+  export function hasRole(requiredRole: UserRole): boolean {
     const user = getCurrentUser();
     return user?.role === requiredRole;
   }
-  

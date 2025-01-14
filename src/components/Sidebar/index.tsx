@@ -13,6 +13,7 @@ import { SiLivewire ,SiAuthelia } from "react-icons/si";
 import { IoMapSharp } from "react-icons/io5";
 import { RiAdminFill } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
+import { MdElectricBolt } from "react-icons/md";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -78,6 +79,14 @@ const menuGroups = [
         ),
         label: "Map Insights",
         route: "/Dashboard/Map",
+       
+      },
+      {
+        icon: (
+          <MdElectricBolt className="w-6 h-6"/>
+        ),
+        label: "Electricity(Beta)",
+        route: "/Dashboard/Electricity",
        
       },
     

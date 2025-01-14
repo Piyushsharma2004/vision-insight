@@ -1,17 +1,17 @@
 import React from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
-import Mapcomponents from "@/components/Maps/MapPage";
+import ElectricityManagement from "@/components/Electricity/Electricitypart";
 
 
-const MapPage= () => {
+const ElectricityPage= () => {
   return (
     <DefaultLayout>
       <div className=" ">
         
-     < Mapcomponents />
+      <ElectricityManagement />
       </div>
     </DefaultLayout>
   );
 };
 
-export default MapPage;
+export default ElectricityPage;

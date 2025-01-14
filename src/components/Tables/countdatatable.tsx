@@ -181,7 +181,7 @@ const TimeTableComponent = () => {
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 border-2 border-red-500 bg-red-50 dark:bg-red-900/20"></div>
-          <span className="text-gray-600 dark:text-gray-400">High Occupancy (> 5)</span>
+          <span className="text-gray-600 dark:text-gray-400">High Occupancy ({'>'} 5)</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 bg-gray-100 dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600"></div>

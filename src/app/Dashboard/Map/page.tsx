@@ -1,17 +1,16 @@
 import React from "react";
-import TimeTableComponent from "@/components/Tables/countdatatable";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
 
 
-const ReportPage= () => {
+const MapPage= () => {
   return (
     <DefaultLayout>
       <div className=" ">
         
-      <TimeTableComponent />
+      under map
       </div>
     </DefaultLayout>
   );
 };
 
-export default ReportPage;
+export default MapPage;

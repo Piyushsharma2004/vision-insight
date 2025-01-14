@@ -1,3 +1,4 @@
+'use strict';
 import { useState, useEffect, useCallback, memo, useRef } from 'react';
 import { Building } from 'lucide-react';
 

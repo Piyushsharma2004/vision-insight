@@ -1,85 +1,47 @@
-import React from 'react';
-import { Zap, ZapOff } from 'lucide-react';
-import type { RoomProps } from './types';
+'use client';
+import { Zap as Lightning, Power } from 'lucide-react';
 
-const Room: React.FC<RoomProps> = ({ 
-  roomNumber, 
-  count, 
-  buildingName, 
-  isPowered, 
-  onTogglePower 
-}) => {
-  const isLowOccupancy = count <= 5;
-  
-  const handlePowerToggle = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onTogglePower(roomNumber);
+type RoomProps = {
+  roomData: {
+    id: string;
+    count: number;
+    powerOn: boolean;
   };
-  
-  // Calculate background color based on power and occupancy state
-  const getBgColor = () => {
-    if (!isPowered) {
-      return 'bg-red-100 border-red-500 dark:bg-red-900/30';
-    }
-    if (isLowOccupancy) {
-      return 'bg-yellow-50 border-yellow-500 dark:bg-yellow-900/20';
-    }
-    return 'bg-green-50 border-green-500 dark:bg-green-900/20';
-  };
+  buildingName: string;
+  onTogglePower: (buildingName: string, roomId: string) => void;
+};
 
-  // Calculate button styling based on power state
-  const getButtonStyle = () => {
-    if (!isPowered) {
-      return 'bg-red-200 hover:bg-red-300 dark:bg-red-800 dark:hover:bg-red-700';
-    }
-    return 'bg-green-100 hover:bg-green-200 dark:bg-green-800 dark:hover:bg-green-700';
-  };
-  
+const Room = ({ roomData, buildingName, onTogglePower }: RoomProps) => {
+  const isLowOccupancy = roomData.count <= 5;
+
   return (
     <div
-      className={`
-        w-26 h-26 rounded-md p-2 
-        flex flex-col items-center justify-between
-        transition-all duration-200 
-        border-2
-        ${getBgColor()}
+      className={`w-24 h-24 rounded-md p-2 flex flex-col items-center justify-center
+        transition-colors duration-200 text-xs border-2
+        ${
+          roomData.powerOn
+            ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
+            : 'border-red-500 bg-red-50 dark:bg-red-900/20'
+        }
       `}
     >
-      <div className="text-center">
-        <div className="font-bold text-[12px] mb-1 dark:text-gray-200">
-          {buildingName}-{roomNumber}
+      <div className="text-center mb-2">
+        <div className="font-bold text-sm mb-0.5 dark:text-gray-200">
+          {buildingName}-{roomData.id.split('-')[1]}
         </div>
-        <div className={`text-[12px] ${!isPowered ? 'text-red-600 dark:text-red-400' : 'dark:text-gray-300'}`}>
-          {count} students
-        </div>
+        <div className="text-sm dark:text-gray-300">{roomData.count} students</div>
       </div>
-      
       <button
-        onClick={handlePowerToggle}
-        type="button"
-        className={`
-          p-1.5 rounded-full 
-          transition-all duration-200
-          ${getButtonStyle()}
-          shadow-sm
-        `}
-        title={isPowered ? "Turn power off" : "Turn power on"}
+        onClick={() => onTogglePower(buildingName, roomData.id)}
+        className={`w-8 h-8 flex items-center justify-center rounded-full text-white ${
+          roomData.powerOn ? 'bg-blue-500 hover:bg-blue-600' : 'bg-red-500 hover:bg-red-600'
+        }`}
+        title={roomData.powerOn ? 'Turn off power' : 'Turn on power'}
       >
-        {isPowered ? (
-          <Zap className="w-4 h-4 text-green-600 dark:text-green-400" />
-        ) : (
-          <ZapOff className="w-4 h-4 text-red-600 dark:text-red-400" />
-        )}
+        {roomData.powerOn ? <Power size={16} /> : <Lightning size={16} />}
       </button>
-
-      {!isPowered && (
-        <div className="absolute -top-1 -right-1">
-          <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
-        </div>
-      )}
     </div>
   );
 };
 
-export default React.memo(Room);
+export default Room;

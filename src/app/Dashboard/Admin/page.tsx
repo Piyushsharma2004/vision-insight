@@ -1,5 +1,6 @@
 import React from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
+import AdminPageDev from "@/components/Admin/admindev";
 
 
 const adminPage= () => {
@@ -7,7 +8,7 @@ const adminPage= () => {
     <DefaultLayout>
       <div className=" ">
         
-      under admin page
+      <AdminPageDev />
       </div>
     </DefaultLayout>
   );

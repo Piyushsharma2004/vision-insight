@@ -1,8 +1,8 @@
 'use client';
 import React from "react";
-import { Activity, AlertCircle } from "lucide-react";
+import { BarChart, AlertCircle } from "lucide-react";
 
-const LiveReport: React.FC = () => {
+const InsightsPageDev: React.FC = () => {
   return (
     <div className="w-full h-[600px] bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950/30 dark:to-red-900/20 rounded-xl shadow-lg p-6 relative overflow-hidden">
       {/* Grid Background Pattern */}
@@ -12,7 +12,7 @@ const LiveReport: React.FC = () => {
       <div className="relative h-full flex flex-col items-center justify-center space-y-6 text-center">
         {/* Icon */}
         <div className="relative">
-          <Activity className="w-20 h-20 text-red-500 dark:text-red-400 animate-pulse" />
+          <BarChart className="w-20 h-20 text-red-500 dark:text-red-400 animate-pulse" />
           <div className="absolute -top-2 -right-2">
             <AlertCircle className="w-6 h-6 text-red-600 dark:text-red-500 animate-bounce" />
           </div>
@@ -21,21 +21,21 @@ const LiveReport: React.FC = () => {
         {/* Text Content */}
         <div className="space-y-4 max-w-lg">
           <h2 className="text-2xl font-bold text-red-800 dark:text-red-200">
-            Live Classroom Report
+            Classroom Insights
           </h2>
           <p className="text-red-600 dark:text-red-300">
-            Our live classroom student count report is under development. Soon, you’ll be able to see live student counts and classroom details in real-time.
+            Our classroom insights page is under development. Soon, you all be able to explore detailed insights such as occupancy rates, student attendance, and more.
           </p>
           
           {/* Feature Preview */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            {['Classroom 1', 'Classroom 2', 'Classroom 3', 'Classroom 4'].map((room) => (
+            {['Occupancy Trends', 'Attendance Rates', 'Performance Insights', 'Resource Usage'].map((feature) => (
               <div 
-                key={room}
+                key={feature}
                 className="bg-white/50 dark:bg-red-950/50 rounded-lg p-3 border border-red-200 dark:border-red-800"
               >
                 <p className="text-sm font-medium text-red-700 dark:text-red-300">
-                  {room}
+                  {feature}
                 </p>
               </div>
             ))}
@@ -56,4 +56,4 @@ const LiveReport: React.FC = () => {
   );
 };
 
-export default LiveReport;
+export default InsightsPageDev;

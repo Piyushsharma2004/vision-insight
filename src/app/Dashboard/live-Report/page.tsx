@@ -1,5 +1,6 @@
 import React from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
+import LiveReport from "@/components/liveReport/livereportcomponents";
 
 
 const liveReportPage= () => {
@@ -7,7 +8,7 @@ const liveReportPage= () => {
     <DefaultLayout>
       <div className=" ">
         
-      under live report
+      <LiveReport />
       </div>
     </DefaultLayout>
   );

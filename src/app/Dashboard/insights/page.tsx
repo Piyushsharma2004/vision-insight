@@ -1,5 +1,6 @@
 import React from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
+import InsightsPageDev from "@/components/Insights/InsightsPageDeve";
 
 
 const insightsPage= () => {
@@ -7,7 +8,7 @@ const insightsPage= () => {
     <DefaultLayout>
       <div className=" ">
         
-      under insights
+    <InsightsPageDev />
       </div>
     </DefaultLayout>
   );

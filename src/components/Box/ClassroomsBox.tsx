@@ -1,4 +1,4 @@
-'use strict';
+'use client';
 import { useState, useEffect, useCallback, memo, useRef } from 'react';
 import { Building } from 'lucide-react';
 

@@ -1,34 +1,39 @@
-if (typeof jsVectorMap === "undefined") {
-    console.error("jsVectorMap is not loaded yet.");
-  }
-  
-  if (!jsVectorMap.maps) {
-    jsVectorMap.maps = {}; // Initialize the maps object if undefined
-  }
-  
-  jsVectorMap.maps.college_map = {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        properties: {},
-        geometry: {
-          type: "LineString",
-          coordinates: [
-            [75.87976453844149, 26.776993543053436],
-            [75.87983104725035, 26.776791661563863],
-            [75.8798243963698, 26.77620976585048],
-            [75.8798044437265, 26.775247850071352],
-            [75.87978449108476, 26.7743809313382],
-            [75.87981629470761, 26.774002345792226],
-            [75.87509875784829, 26.773652153040615],
-            [75.8749291385461, 26.77648205816122],
-            [75.87614827728532, 26.776718669106458],
-            [75.87787627393229, 26.776926886330642],
-            [75.8797844910886, 26.776983672779522],
-          ],
-        },
-      },
-    ],
-  };
-  
+jsVectorMap.addMap("university_campus", {
+  insets: [
+    {
+      width: 900.0,
+      top: 0,
+      height: 550.0,
+      bbox: [
+        { y: -1000, x: -1000 },
+        { y: 1000, x: 1000 }
+      ],
+      left: 0
+    }
+  ],
+  paths: {
+    "ENGINEERING": {
+      path: "M200,100 L300,100 L300,200 L250,200 L250,150 L200,150 Z",
+      name: "Engineering Block"
+    },
+    "SCIENCE": {
+      path: "M350,100 L500,100 L500,180 L350,180 Z",
+      name: "Science Block"
+    },
+    "LAW": {
+      path: "M200,250 L350,250 L350,350 L200,350 Z",
+      name: "Law Block"
+    },
+    "DESIGN": {
+      path: "M400,250 L500,250 L500,300 L450,300 L450,350 L400,350 Z",
+      name: "Design Block"
+    },
+    "ADMIN": {
+      path: "M550,150 L650,150 L650,250 L550,250 Z",
+      name: "Admin Block"
+    }
+  },
+  height: 550,
+  projection: { type: "miller" },
+  width: 900,
+});

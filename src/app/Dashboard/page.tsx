@@ -1,4 +1,4 @@
-import ECommerce from "@/components/Dashboard/DashBoard";
+import ViDashboard from "@/components/Dashboard/DashBoard";
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
 import React from "react";
@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <>
       <DefaultLayout>
-        <ECommerce />
+        <ViDashboard />
       </DefaultLayout>
     </>
   );

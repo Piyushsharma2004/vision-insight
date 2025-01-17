@@ -1,6 +1,7 @@
 import React from "react";
-import TimeTableComponent from "@/components/Tables/countdatatable";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
+import ReportComponent from "@/components/Report/ReportComponent";
+
 
 
 const ReportPage= () => {
@@ -8,7 +9,8 @@ const ReportPage= () => {
     <DefaultLayout>
       <div className=" ">
         
-      <TimeTableComponent />
+      {/* <ReportComponent /> */}
+      <ReportComponent />
       </div>
     </DefaultLayout>
   );

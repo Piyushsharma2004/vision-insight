@@ -10,7 +10,7 @@ const ChartTwo: React.FC = () => {
       data: [44, 55, 41, 67, 32, 43, 61],
     },
     {
-      name: "Revenue Shift",
+      name: "Evening Shift",
       data: [28, 23, 30, 21, 43, 57, 35],
     },
   ];

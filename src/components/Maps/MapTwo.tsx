@@ -9,15 +9,15 @@ const MapTwo: React.FC = () => {
        Heap Map Of University
       </h4>
       <div className="h-[422px]">
-      <div className="mapOne map-btn relative">
+      <div className="mapOne map-btn relative pt-15">
   <Image
-    src="/images/task/campus-map.png"
+    src="/images/task/campus-map-2.svg"
     alt="map"
     width={800}
-    height={400}
+    height={700}
     className="object-cover"
   />
-  <div className="absolute inset-0 bg-black bg-opacity-70 flex items-center justify-center">
+  <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center h-[422px] rounded-md">
     <span className="text-white text-xl font-bold">Under Development</span>
   </div>
 </div>

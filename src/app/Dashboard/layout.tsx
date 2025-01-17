@@ -22,10 +22,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
   return isAuthenticated ? (
     <div className="dashboard-layout">
-      {/* Add any shared UI elements, like a sidebar or header */}
-      <header className="dashboard-header">
-        <h1>Welcome, {user?.name || "User"}!</h1>
-      </header>
+     
       <main>{children}</main>
     </div>
   ) : null; // Avoid rendering children if not authenticated

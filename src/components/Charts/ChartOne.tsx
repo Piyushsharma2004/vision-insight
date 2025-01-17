@@ -5,13 +5,10 @@ import DefaultSelectOption from "@/components/SelectOption/DefaultSelectOption";
 
 const ChartOne: React.FC = () => {
   const series = [
+
     {
-      name: "Received Amount",
-      data: [0, 20, 35, 45, 35, 55, 65, 50, 65, 75, 60, 75],
-    },
-    {
-      name: "Due Amount",
-      data: [15, 9, 17, 32, 25, 68, 80, 68, 84, 94, 74, 62],
+      name: "students in class",
+      data: [60, 59, 62, 52, 58, 20, 40, 60, 54, 44, 62, 61],
     },
   ];
 

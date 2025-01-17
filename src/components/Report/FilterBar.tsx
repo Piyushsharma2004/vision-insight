@@ -123,6 +123,9 @@ const FilterBar: React.FC<FilterBarProps> = ({
 
         {/* Search Input */}
         <div className="min-w-[200px] flex-1 relative">
+        <label className="pl-2 block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Search
+            </label>
           <input
             type="text"
             placeholder="Search rooms..."
@@ -132,13 +135,13 @@ const FilterBar: React.FC<FilterBarProps> = ({
                      bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100
                      focus:border-red-500 focus:ring-1 focus:ring-red-500"
           />
-          <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-red-400" />
+          <Search className="w-4 h-4 absolute left-3 top-[45px] transform -translate-y-1/2 text-red-400" />
         </div>
 
         {/* Export Button */}
         <button
           onClick={onExport}
-          className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 
+          className="px-4 py-2 mt-6 rounded-lg bg-red-600 text-white hover:bg-red-700 
                    dark:bg-red-700 dark:hover:bg-red-600 transition-colors flex items-center gap-2"
         >
           <Download className="w-4 h-4" />

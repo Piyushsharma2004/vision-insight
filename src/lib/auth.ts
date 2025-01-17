@@ -28,7 +28,7 @@ interface User {
   // Type-safe user records
   const USERS: Record<string, User> = {
     'Admin@123': {
-      password: '123321',
+      password: 'admin123',
       role: 'admin',
       name: 'Admin User',
     },

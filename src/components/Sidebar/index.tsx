@@ -14,6 +14,7 @@ import { IoMapSharp } from "react-icons/io5";
 import { RiAdminFill } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
 import { MdElectricBolt } from "react-icons/md";
+import LogoutButton from "../Auth/logoutbtn";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -22,7 +23,6 @@ interface SidebarProps {
 
 const menuGroups = [
   {
-    name: "MAIN MENU",
     menuItems: [
       {
         icon: (
@@ -198,8 +198,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 </ul>
               </div>
             ))}
-            <div className="w-full pl-3">
-            <button className="bg-red-500 text-white py-1 px-3 rounded-md font-bold">Sign Out</button>
+            <div className="mb-5">
+            <LogoutButton/>
             </div>
           </nav>
           {/* <!-- Sidebar Menu --> */}

@@ -13,7 +13,7 @@ interface Teacher {
   name: string;
   subject: string;
   course: string;
-  status: 'In Class' | 'Available' ;
+  status: 'In Class' | 'Available';  // Fixed to match exact string literals
   currentLoad: number;
   maxLoad: number;
   nextClass: string;
@@ -44,8 +44,8 @@ const TeacherAvailability: React.FC = () => {
 
   const fetchTeacherData = async () => {
     try {
-      // Simulating API fetch with mock data
-      setTeachers(mockTeacherData.teachers);
+      // Ensure mockTeacherData matches the Teacher interface
+      setTeachers(mockTeacherData.teachers as Teacher[]);
       setPerformanceData(mockTeacherData.performanceData);
       setLoading(false);
     } catch (err) {
@@ -62,8 +62,8 @@ const TeacherAvailability: React.FC = () => {
   }, []);
 
   // Get unique courses and subjects for filters
-  const courses = [...new Set(teachers.map(t => t.course))];
-  const subjects = [...new Set(teachers.map(t => t.subject))];
+  const courses = Array.from(new Set(teachers.map(t => t.course)));
+  const subjects = Array.from(new Set(teachers.map(t => t.subject)));
 
   const filterTeachers = (): Teacher[] => {
     if (!teachers) return [];

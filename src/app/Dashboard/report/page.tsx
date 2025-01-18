@@ -1,6 +1,7 @@
 import React from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
-import ReportComponent from "@/components/Report/ReportComponent";
+// import ReportComponent from "@/components/Report/ReportComponent";
+import ReportComponent from "@/components/Report1/ReportComponent";
 
 
 

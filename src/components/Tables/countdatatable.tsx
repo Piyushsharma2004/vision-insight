@@ -65,11 +65,7 @@ const TimeTableComponent = () => {
 
   // Function to get style classes based on occupancy
   const getOccupancyStyle = (count: number) => {
-    if (count === 0) return {
-      bg: 'bg-gray-100 dark:bg-gray-800',
-      text: 'text-gray-400 dark:text-gray-500',
-      border: 'border-gray-300 dark:border-gray-600'
-    };
+
     if (count <= 5) return {
       bg: 'bg-green-50 dark:bg-green-900/20',
       text: 'text-green-700 dark:text-green-400',

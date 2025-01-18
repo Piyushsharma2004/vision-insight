@@ -1,42 +1,38 @@
 'use client'
 import React, { useState } from 'react';
 import { 
-  Book, 
-  Users, 
-  BarChart2, 
-  Map, 
-  Zap, 
-  Phone, 
-  Mail, 
-  MessageCircle,
-  ChevronDown,
-  Search,
-  AlertCircle
+  Book, Users, BarChart2, Map, Zap, Phone, Mail, MessageCircle,
+  ChevronDown, Search, AlertCircle, Video, FileText, Clock,
+  BookOpen, Wrench, Award
 } from 'lucide-react';
+import TeamMemberCard from './TeamMemberCard';
 
 const HelpComponent = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [expandedSection, setExpandedSection] = useState<string | null>(null);
+  const [expandedSection, setExpandedSection] = useState(['team']); // Team section always expanded
 
-  const commonErrors = [
+  const supportTeam = [
     {
-      error: "Data Not Loading",
-      solution: "Check your internet connection or refresh the page. If the issue persists, clear browser cache."
+      name: "Piyush Sharma",
+      role: "Technical & Development",
+      contact: "9460994274",
+      email: "piyushsharmanova@gmail.com",
+      github: "https://github.com/piyushsharma2004",
+      linkedin: "https://linkedin.com/in/piyushsharmanova",
+      photoUrl: "/images/team/piyush.jpg"
     },
     {
-      error: "Export Failed",
-      solution: "Ensure you've selected valid date ranges and classrooms. Try exporting smaller date ranges if dealing with large datasets."
-    },
-    {
-      error: "Live Count Not Updating",
-      solution: "The system updates every 5 minutes. If counts aren't changing, check sensor connectivity."
-    },
-    {
-      error: "Invalid Time Table Entry",
-      solution: "Ensure all required fields are filled and time slots don't overlap."
+      name: "Prakhar Sharma",
+      role: "Technical & Development",
+      contact: "9660401770",
+      email: "pklegend048@gmail.com",
+      github: "https://github.com/legend048",
+      linkedin: "https://linkedin.com/in/prakhar-sharma-6024a728b",
+      photoUrl: "/images/team/prakhar.png"
     }
   ];
 
+  // Additional features
   const features = [
     {
       title: "Time Table Management",
@@ -61,28 +57,54 @@ const HelpComponent = () => {
     {
       title: "Electricity Monitoring",
       icon: Zap,
-      description: "Track and optimize electricity usage in classrooms (Beta feature)."
+      description: "Track and optimize electricity usage in classrooms."
+    },
+    {
+      title: "Video Tutorials",
+      icon: Video,
+      description: "Step-by-step video guides for all major features."
+    },
+    {
+      title: "Documentation",
+      icon: FileText,
+      description: "Comprehensive system documentation and user guides."
+    },
+    {
+      title: "Attendance Tracking",
+      icon: Clock,
+      description: "Monitor and manage student attendance records."
     }
   ];
 
-  const supportTeam = [
+  // New Resources section
+  const resources = [
     {
-      name: "Piyush Sharma",
-      role: "Lead Developer",
-      contact: "9460994274",
-      email: "piyushsharmanova@gmail.com"
+      title: "User Guide",
+      icon: BookOpen,
+      link: "#",
+      description: "Complete documentation for all features"
     },
     {
-      name: "Prakhar Sharma",
-      role: "Technical Support",
-      contact: "9660401770",
-      email: "prakharsharma@gmail.com"
+      title: "Troubleshooting Guide",
+      icon: Wrench,
+      link: "#",
+      description: "Solutions to common technical issues"
     },
-   
+    {
+      title: "Best Practices",
+      icon: Award,
+      link: "#",
+      description: "Tips for optimal system usage"
+    }
   ];
 
   const toggleSection = (section: string) => {
-    setExpandedSection(expandedSection === section ? null : section);
+    if (section === 'team') return; // Prevent team section from collapsing
+    setExpandedSection(prev => 
+      prev.includes(section) 
+        ? prev.filter(s => s !== section)
+        : [...prev, section]
+    );
   };
 
   const filterContent = (content: string) => {
@@ -91,14 +113,14 @@ const HelpComponent = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-8">
         {/* Header */}
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-red-600 dark:text-red-500 mb-4">
-            Help Center
+            Help & Support Center
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Find answers to common questions and learn more about our features
+          <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            Find answers to common questions, explore our features, and get in touch with our support team
           </p>
         </div>
 
@@ -116,133 +138,71 @@ const HelpComponent = () => {
           />
         </div>
 
-        {/* Common Errors Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-red-200 dark:border-red-800">
-          <div 
-            className="p-4 cursor-pointer flex justify-between items-center"
-            onClick={() => toggleSection('errors')}
-          >
-            <div className="text-red-600 dark:text-red-500 flex items-center gap-2 text-lg font-semibold">
-              <AlertCircle className="w-5 h-5" />
-              Common Issues & Solutions
-            </div>
-            <ChevronDown 
-              className={`w-5 h-5 transition-transform ${
-                expandedSection === 'errors' ? 'transform rotate-180' : ''
-              }`}
-            />
-          </div>
-          {expandedSection === 'errors' && (
-            <div className="p-4 border-t border-red-200 dark:border-red-800 space-y-4">
-              {commonErrors.filter(item => 
-                filterContent(item.error) || filterContent(item.solution)
-              ).map((item, index) => (
-                <div key={index} className="p-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                  <h3 className="font-semibold text-red-600 dark:text-red-500 mb-2">
-                    {item.error}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {item.solution}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
+        {/* Resources Section */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          {resources.map((resource, index) => (
+            <a
+              key={index}
+              href={resource.link}
+              className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md 
+                       border border-red-200 dark:border-red-800
+                       hover:shadow-lg transition-shadow"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <resource.icon className="w-6 h-6 text-red-600 dark:text-red-500" />
+                <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+                  {resource.title}
+                </h3>
+              </div>
+              <p className="text-gray-600 dark:text-gray-400">
+                {resource.description}
+              </p>
+            </a>
+          ))}
         </div>
 
-        {/* Features Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-red-200 dark:border-red-800">
-          <div 
-            className="p-4 cursor-pointer flex justify-between items-center"
-            onClick={() => toggleSection('features')}
-          >
-            <div className="text-red-600 dark:text-red-500 text-lg font-semibold">
-              Features Overview
-            </div>
-            <ChevronDown 
-              className={`w-5 h-5 transition-transform ${
-                expandedSection === 'features' ? 'transform rotate-180' : ''
-              }`}
-            />
-          </div>
-          {expandedSection === 'features' && (
-            <div className="p-4 border-t border-red-200 dark:border-red-800">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {features.filter(item => 
-                  filterContent(item.title) || filterContent(item.description)
-                ).map((feature, index) => (
-                  <div 
-                    key={index}
-                    className="p-4 rounded-lg border border-red-200 dark:border-red-800
-                             bg-white dark:bg-gray-800"
-                  >
-                    <div className="flex items-center gap-3 mb-2">
-                      <feature.icon className="w-5 h-5 text-red-600 dark:text-red-500" />
-                      <h3 className="font-semibold text-gray-900 dark:text-gray-100">
-                        {feature.title}
-                      </h3>
-                    </div>
-                    <p className="text-gray-600 dark:text-gray-400">
-                      {feature.description}
-                    </p>
-                  </div>
-                ))}
+        {/* Features Grid */}
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+            Features & Capabilities
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.filter(item => 
+              filterContent(item.title) || filterContent(item.description)
+            ).map((feature, index) => (
+              <div 
+                key={index}
+                className="p-4 rounded-lg border border-red-200 dark:border-red-800
+                         hover:shadow-md transition-shadow"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <feature.icon className="w-5 h-5 text-red-600 dark:text-red-500" />
+                  <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+                    {feature.title}
+                  </h3>
+                </div>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {feature.description}
+                </p>
               </div>
-            </div>
-          )}
+            ))}
+          </div>
         </div>
 
         {/* Support Team Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md border border-red-200 dark:border-red-800">
-          <div 
-            className="p-4 cursor-pointer flex justify-between items-center"
-            onClick={() => toggleSection('team')}
-          >
-            <div className="text-red-600 dark:text-red-500 text-lg font-semibold">
-              Support Team
-            </div>
-            <ChevronDown 
-              className={`w-5 h-5 transition-transform ${
-                expandedSection === 'team' ? 'transform rotate-180' : ''
-              }`}
-            />
+        <div className="bg-white text-center dark:bg-gray-800 rounded-lg shadow-md p-6">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+             Development Team
+          </h2>
+          <div className='flex flex-row justify-center' >
+          <div className="flex  m-4">
+            {supportTeam.filter(item => 
+              filterContent(item.name) || filterContent(item.role)
+            ).map((member, index) => (
+              <TeamMemberCard key={index} member={member} />
+            ))}
           </div>
-          {expandedSection === 'team' && (
-            <div className="p-4 border-t border-red-200 dark:border-red-800">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {supportTeam.filter(item => 
-                  filterContent(item.name) || filterContent(item.role)
-                ).map((member, index) => (
-                  <div 
-                    key={index}
-                    className="p-4 rounded-lg border border-red-200 dark:border-red-800
-                             bg-white dark:bg-gray-800"
-                  >
-                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                      {member.name}
-                    </h3>
-                    <p className="text-gray-600 dark:text-gray-400 mb-2">
-                      {member.role}
-                    </p>
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <Phone className="w-4 h-4 text-red-600 dark:text-red-500" />
-                        <span className="text-gray-600 dark:text-gray-400">
-                          {member.contact}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Mail className="w-4 h-4 text-red-600 dark:text-red-500" />
-                        <span className="text-gray-600 dark:text-gray-400">
-                          {member.email}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          </div>
         </div>
 
         {/* Live Chat Support */}

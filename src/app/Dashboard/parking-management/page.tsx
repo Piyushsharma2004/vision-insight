@@ -1,5 +1,6 @@
 import React from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
+import ParkingManagement from "@/components/Parking/parkingtool";
 
 
 const parkingPage= () => {
@@ -7,7 +8,7 @@ const parkingPage= () => {
     <DefaultLayout>
       <div className=" ">
         
-       Under parking page
+      <ParkingManagement />
       </div>
     </DefaultLayout>
   );

@@ -1,5 +1,6 @@
 import React from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
+import HelpComponent from "@/components/Help/helptool";
 
 
 const helpPage= () => {
@@ -7,7 +8,7 @@ const helpPage= () => {
     <DefaultLayout>
       <div className=" ">
         
-      under help page
+     <HelpComponent />
       </div>
     </DefaultLayout>
   );

@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
 import { Car, Bike, MapPin, AlertTriangle, ArrowUpRight, ArrowDownRight, Activity } from 'lucide-react';
+import VehicalManagement from './vehicaldetails';
 
 const ParkingManagement = () => {
   // Simulated real-time data
@@ -18,10 +19,10 @@ const ParkingManagement = () => {
   });
 
   const parkingLocations = [
-    { id: 1, name: 'Main Gate Parking', carCapacity: 100, bikeCapacity: 200, carOccupied: 75, bikeOccupied: 150 },
-    { id: 2, name: 'Library Parking', carCapacity: 50, bikeCapacity: 100, carOccupied: 20, bikeOccupied: 80 },
+    { id: 1, name: 'Main Gate(L) Parking ', carCapacity: 100, bikeCapacity: 200, carOccupied: 75, bikeOccupied: 150 },
+    { id: 2, name: 'Main Gate(R) Parking', carCapacity: 50, bikeCapacity: 100, carOccupied: 20, bikeOccupied: 80 },
     { id: 3, name: 'Hostel Parking', carCapacity: 80, bikeCapacity: 150, carOccupied: 65, bikeOccupied: 120 },
-    { id: 4, name: 'Staff Parking', carCapacity: 60, bikeCapacity: 80, carOccupied: 45, bikeOccupied: 60 }
+    { id: 4, name: 'Staff(KAB) Parking', carCapacity: 60, bikeCapacity: 80, carOccupied: 45, bikeOccupied: 60 }
   ];
 
   // Simulate real-time updates
@@ -63,8 +64,13 @@ const ParkingManagement = () => {
         </div>
       </div>
 
+      <div>
+        <VehicalManagement />
+      </div>
+
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-6 mt-5 bg-white p-4 rounded-xl">
+         <h1 className='text-xl font-semibold text-gray-900 dark:text-gray-100'>Parking Management</h1>
         {/* Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Cars Overview */}

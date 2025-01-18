@@ -78,12 +78,7 @@ const HelpComponent = () => {
       contact: "9660401770",
       email: "prakharsharma@gmail.com"
     },
-    {
-      name: "Siddhant Khandelwal",
-      role: "System Administrator",
-      contact: "6367941411",
-      email: "siddhantkhandelwal@gmail.com"
-    }
+   
   ];
 
   const toggleSection = (section: string) => {

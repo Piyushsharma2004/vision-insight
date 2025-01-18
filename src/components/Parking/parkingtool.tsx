@@ -39,7 +39,7 @@ const ParkingManagement = () => {
           trend: Math.random() > 0.5 ? 'up' : 'down'
         }
       });
-    }, 30000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);

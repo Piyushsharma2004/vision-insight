@@ -27,12 +27,30 @@ const ReportComponent: React.FC = () => {
   const generateRandomDataForDate = useCallback((date: Date) => {
     return {
       date: date.toISOString().split('T')[0],
-      periods: [...Array(12)].map((_, periodIndex) => ({
-        count: Math.floor(Math.random() * 10),
-        key: `${date.toISOString()}-${periodIndex}`,
-      }))
+      periods: [...Array(12)].map((_, periodIndex) => {
+        const randomValue = Math.random();
+        let count;
+  
+        if (randomValue < 0.6) {
+          // 60% chance: Generate a number between 20 and 64
+          count = Math.floor(Math.random() * (64 - 20 + 1)) + 20;
+        } else if (randomValue < 0.9) {
+          // 30% chance: Generate a number between 0 and 5
+          count = Math.floor(Math.random() * (5 - 0 + 1)) + 0;
+        } else {
+          // 10% chance: Generate a number outside these ranges (e.g., 65–100)
+          count = Math.floor(Math.random() * (100 - 65 + 1)) + 65; // Example range
+        }
+  
+        return {
+          count,
+          key: `${date.toISOString()}-${periodIndex}`,
+        };
+      }),
     };
   }, []);
+  
+  
 
   const generateDateRangeData = useCallback(() => {
     const dates: ClassroomData[] = [];

@@ -9,14 +9,15 @@ const insightsPage= () => {
   return (
     <DefaultLayout>
       <div >
-        <div className="mb-5">
-    <InsightsPageDev />
-    </div>
+     
     {/* <RoomUsageDashboard />  */}
       </div>
       <div>
         <EnhancedDashboard />
       </div>
+      <div className="mt-5">
+    <InsightsPageDev />
+    </div>
     </DefaultLayout>
   );
 };

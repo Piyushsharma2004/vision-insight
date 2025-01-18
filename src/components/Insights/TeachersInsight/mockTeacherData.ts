@@ -2,7 +2,7 @@ export const mockTeacherData = {
   teachers: [
     {
       name: "Amit Sharma",
-      subject: "Mathematics",
+      subject: "Computer Science",
       course: "Science Stream",
       status: "In Class",
       currentLoad: 4,
@@ -14,9 +14,9 @@ export const mockTeacherData = {
       rating: 4.8,
       performance: "Excellent",
       upcomingClasses: [
-        { time: "10:30 AM", room: "201", subject: "Algebra II" },
-        { time: "1:15 PM", room: "201", subject: "Calculus" },
-        { time: "3:00 PM", room: "204", subject: "Pre-Calculus" }
+        { time: "10:30 AM", room: "VIB-VIB-201", subject: "DSA" },
+        { time: "1:15 PM", room: "VIB-201", subject: "Flat" },
+        { time: "3:00 PM", room: "VIB-204", subject: "COD" }
       ]
     },
     {
@@ -33,8 +33,8 @@ export const mockTeacherData = {
       rating: 4.6,
       performance: "Very Good",
       upcomingClasses: [
-        { time: "11:45 AM", room: "301", subject: "Physics 101" },
-        { time: "2:00 PM", room: "Lab 3", subject: "Advanced Physics" }
+        { time: "11:45 AM", room: "VIB-301", subject: "Physics 101" },
+        { time: "2:00 PM", room: "VIB-Lab 3", subject: "Advanced Physics" }
       ]
     },
     {
@@ -51,8 +51,8 @@ export const mockTeacherData = {
       rating: 4.9,
       performance: "Outstanding",
       upcomingClasses: [
-        { time: "1:00 PM", room: "105", subject: "World Literature" },
-        { time: "2:45 PM", room: "107", subject: "Creative Writing" }
+        { time: "1:00 PM", room: "VIB-105", subject: "World Literature" },
+        { time: "2:45 PM", room: "VIB-107", subject: "Creative Writing" }
       ]
     },
     {
@@ -69,8 +69,8 @@ export const mockTeacherData = {
       rating: 4.7,
       performance: "Very Good",
       upcomingClasses: [
-        { time: "2:15 PM", room: "Lab 1", subject: "Programming" },
-        { time: "4:00 PM", room: "Lab 1", subject: "Web Development" }
+        { time: "2:15 PM", room: "VIB-Lab 1", subject: "Programming" },
+        { time: "4:00 PM", room: "VIB-Lab 1", subject: "Web Development" }
       ]
     },
     {
@@ -87,8 +87,8 @@ export const mockTeacherData = {
       rating: 4.5,
       performance: "Excellent",
       upcomingClasses: [
-        { time: "11:00 AM", room: "Lab 2", subject: "Organic Chemistry" },
-        { time: "2:30 PM", room: "Lab 2", subject: "Advanced Chemistry" }
+        { time: "11:00 AM", room: "VIB-Lab 2", subject: "Organic Chemistry" },
+        { time: "2:30 PM", room: "VIB-Lab 2", subject: "Advanced Chemistry" }
       ]
     },
     {
@@ -105,8 +105,8 @@ export const mockTeacherData = {
       rating: 4.6,
       performance: "Very Good",
       upcomingClasses: [
-        { time: "10:00 AM", room: "104", subject: "Botany" },
-        { time: "1:30 PM", room: "Lab 1", subject: "Human Anatomy" }
+        { time: "10:00 AM", room: "VIB-104", subject: "Botany" },
+        { time: "1:30 PM", room: "VIB-Lab 1", subject: "Human Anatomy" }
       ]
     },
     {
@@ -123,8 +123,8 @@ export const mockTeacherData = {
       rating: 4.4,
       performance: "Good",
       upcomingClasses: [
-        { time: "11:30 AM", room: "202", subject: "Ancient History" },
-        { time: "3:00 PM", room: "204", subject: "World Wars" }
+        { time: "11:30 AM", room: "VIB-202", subject: "Ancient History" },
+        { time: "3:00 PM", room: "VIB-204", subject: "World Wars" }
       ]
     },
     {
@@ -141,8 +141,8 @@ export const mockTeacherData = {
       rating: 4.7,
       performance: "Excellent",
       upcomingClasses: [
-        { time: "9:45 AM", room: "303", subject: "Microeconomics" },
-        { time: "1:00 PM", room: "305", subject: "Macroeconomics" }
+        { time: "9:45 AM", room: "VIB-303", subject: "Microeconomics" },
+        { time: "1:00 PM", room: "VIB-305", subject: "Macroeconomics" }
       ]
     },
     {
@@ -159,8 +159,8 @@ export const mockTeacherData = {
       rating: 4.5,
       performance: "Very Good",
       upcomingClasses: [
-        { time: "10:45 AM", room: "106", subject: "Indian Constitution" },
-        { time: "2:00 PM", room: "108", subject: "World Politics" }
+        { time: "10:45 AM", room: "VIB-106", subject: "Indian Constitution" },
+        { time: "2:00 PM", room: "VIB-108", subject: "World Politics" }
       ]
     },
     {
@@ -177,8 +177,8 @@ export const mockTeacherData = {
       rating: 4.6,
       performance: "Very Good",
       upcomingClasses: [
-        { time: "12:15 PM", room: "307", subject: "Probability" },
-        { time: "3:45 PM", room: "309", subject: "Data Analysis" }
+        { time: "12:15 PM", room: "VIB-307", subject: "Probability" },
+        { time: "3:45 PM", room: "VIB-309", subject: "Data Analysis" }
       ]
     }
   ],

@@ -15,6 +15,7 @@ import { RiAdminFill } from "react-icons/ri";
 import { RxDashboard } from "react-icons/rx";
 import { MdElectricBolt } from "react-icons/md";
 import LogoutButton from "../Auth/logoutbtn";
+import { FaHotel } from "react-icons/fa";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -89,6 +90,15 @@ const menuGroups = [
         route: "/Dashboard/Electricity",
        
       },
+      {
+        icon: (
+          <FaHotel className="w-6 h-6"/>
+        ),
+        label: "Hostel Room-info",
+        route: "/Dashboard/Hostel-management",
+       
+      },
+
     
     ],
   },

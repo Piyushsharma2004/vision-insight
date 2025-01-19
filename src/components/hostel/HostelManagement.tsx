@@ -23,15 +23,7 @@ interface FilterOptions {
   section: RoomSection | 'All';
   search: string;
 }
-interface AddRoomFormProps {
 
-  onAddRoom: (newRoom: Omit<Room, 'status'>) => void;
-
-  onBulkAddRooms: (newRooms: Omit<Room, 'status'>[]) => void;
-
-  existingRooms: Room[];
-
-}
 
 const generateInitialRooms = (hostelType: HostelType ): Room[] => {
   const rooms: Room[] = [];

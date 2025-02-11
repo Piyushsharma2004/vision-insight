@@ -1,0 +1,297 @@
+{
+    "data": [
+      {
+        "date": "2025-02-05",
+        "classroom": "VIB-001",
+        "block": "VIB",
+        "periods": [
+          {
+            "periodNumber": 1,
+            "startTime": "08:00",
+            "endTime": "08:50",
+            "occupancyCount": 45,
+            "timestamp": "2025-02-05T08:00:00Z"
+          },
+          {
+            "periodNumber": 2,
+            "startTime": "08:50",
+            "endTime": "09:40",
+            "occupancyCount": 52,
+            "timestamp": "2025-02-05T08:50:00Z"
+          },
+          {
+            "periodNumber": 3,
+            "startTime": "09:40",
+            "endTime": "10:30",
+            "occupancyCount": 38,
+            "timestamp": "2025-02-05T09:40:00Z"
+          },
+          {
+            "periodNumber": 4,
+            "startTime": "10:50",
+            "endTime": "11:40",
+            "occupancyCount": 60,
+            "timestamp": "2025-02-05T10:50:00Z"
+          },
+          {
+            "periodNumber": 5,
+            "startTime": "11:40",
+            "endTime": "12:30",
+            "occupancyCount": 25,
+            "timestamp": "2025-02-05T11:40:00Z"
+          },
+          {
+            "periodNumber": 6,
+            "startTime": "12:30",
+            "endTime": "13:00",
+            "occupancyCount": 15,
+            "timestamp": "2025-02-05T12:30:00Z"
+          },
+          {
+            "periodNumber": 7,
+            "startTime": "13:00",
+            "endTime": "13:50",
+            "occupancyCount": 42,
+            "timestamp": "2025-02-05T13:00:00Z"
+          },
+          {
+            "periodNumber": 8,
+            "startTime": "13:50",
+            "endTime": "14:40",
+            "occupancyCount": 55,
+            "timestamp": "2025-02-05T13:50:00Z"
+          },
+          {
+            "periodNumber": 9,
+            "startTime": "14:40",
+            "endTime": "15:30",
+            "occupancyCount": 48,
+            "timestamp": "2025-02-05T14:40:00Z"
+          },
+          {
+            "periodNumber": 10,
+            "startTime": "15:50",
+            "endTime": "16:40",
+            "occupancyCount": 33,
+            "timestamp": "2025-02-05T15:50:00Z"
+          },
+          {
+            "periodNumber": 11,
+            "startTime": "16:40",
+            "endTime": "17:30",
+            "occupancyCount": 28,
+            "timestamp": "2025-02-05T16:40:00Z"
+          },
+          {
+            "periodNumber": 12,
+            "startTime": "17:30",
+            "endTime": "18:00",
+            "occupancyCount": 12,
+            "timestamp": "2025-02-05T17:30:00Z"
+          }
+        ]
+      },
+      {
+        "date": "2025-02-06",
+        "classroom": "VIB-001",
+        "block": "VIB",
+        "periods": [
+          {
+            "periodNumber": 1,
+            "startTime": "08:00",
+            "endTime": "08:50",
+            "occupancyCount": 50,
+            "timestamp": "2025-02-06T08:00:00Z"
+          },
+          {
+            "periodNumber": 2,
+            "startTime": "08:50",
+            "endTime": "09:40",
+            "occupancyCount": 48,
+            "timestamp": "2025-02-06T08:50:00Z"
+          },
+          {
+            "periodNumber": 3,
+            "startTime": "09:40",
+            "endTime": "10:30",
+            "occupancyCount": 42,
+            "timestamp": "2025-02-06T09:40:00Z"
+          },
+          {
+            "periodNumber": 4,
+            "startTime": "10:50",
+            "endTime": "11:40",
+            "occupancyCount": 55,
+            "timestamp": "2025-02-06T10:50:00Z"
+          },
+          {
+            "periodNumber": 5,
+            "startTime": "11:40",
+            "endTime": "12:30",
+            "occupancyCount": 30,
+            "timestamp": "2025-02-06T11:40:00Z"
+          },
+          {
+            "periodNumber": 6,
+            "startTime": "12:30",
+            "endTime": "13:00",
+            "occupancyCount": 18,
+            "timestamp": "2025-02-06T12:30:00Z"
+          },
+          {
+            "periodNumber": 7,
+            "startTime": "13:00",
+            "endTime": "13:50",
+            "occupancyCount": 45,
+            "timestamp": "2025-02-06T13:00:00Z"
+          },
+          {
+            "periodNumber": 8,
+            "startTime": "13:50",
+            "endTime": "14:40",
+            "occupancyCount": 52,
+            "timestamp": "2025-02-06T13:50:00Z"
+          },
+          {
+            "periodNumber": 9,
+            "startTime": "14:40",
+            "endTime": "15:30",
+            "occupancyCount": 44,
+            "timestamp": "2025-02-06T14:40:00Z"
+          },
+          {
+            "periodNumber": 10,
+            "startTime": "15:50",
+            "endTime": "16:40",
+            "occupancyCount": 35,
+            "timestamp": "2025-02-06T15:50:00Z"
+          },
+          {
+            "periodNumber": 11,
+            "startTime": "16:40",
+            "endTime": "17:30",
+            "occupancyCount": 25,
+            "timestamp": "2025-02-06T16:40:00Z"
+          },
+          {
+            "periodNumber": 12,
+            "startTime": "17:30",
+            "endTime": "18:00",
+            "occupancyCount": 10,
+            "timestamp": "2025-02-06T17:30:00Z"
+          }
+        ]
+      },
+      {
+        "date": "2025-02-05",
+        "classroom": "NYB-001",
+        "block": "NYB",
+        "periods": [
+          {
+            "periodNumber": 1,
+            "startTime": "08:00",
+            "endTime": "08:50",
+            "occupancyCount": 40,
+            "timestamp": "2025-02-05T08:00:00Z"
+          },
+          {
+            "periodNumber": 2,
+            "startTime": "08:50",
+            "endTime": "09:40",
+            "occupancyCount": 45,
+            "timestamp": "2025-02-05T08:50:00Z"
+          },
+          {
+            "periodNumber": 3,
+            "startTime": "09:40",
+            "endTime": "10:30",
+            "occupancyCount": 35,
+            "timestamp": "2025-02-05T09:40:00Z"
+          },
+          {
+            "periodNumber": 4,
+            "startTime": "10:50",
+            "endTime": "11:40",
+            "occupancyCount": 58,
+            "timestamp": "2025-02-05T10:50:00Z"
+          },
+          {
+            "periodNumber": 5,
+            "startTime": "11:40",
+            "endTime": "12:30",
+            "occupancyCount": 22,
+            "timestamp": "2025-02-05T11:40:00Z"
+          },
+          {
+            "periodNumber": 6,
+            "startTime": "12:30",
+            "endTime": "13:00",
+            "occupancyCount": 12,
+            "timestamp": "2025-02-05T12:30:00Z"
+          },
+          {
+            "periodNumber": 7,
+            "startTime": "13:00",
+            "endTime": "13:50",
+            "occupancyCount": 38,
+            "timestamp": "2025-02-05T13:00:00Z"
+          },
+          {
+            "periodNumber": 8,
+            "startTime": "13:50",
+            "endTime": "14:40",
+            "occupancyCount": 50,
+            "timestamp": "2025-02-05T13:50:00Z"
+          },
+          {
+            "periodNumber": 9,
+            "startTime": "14:40",
+            "endTime": "15:30",
+            "occupancyCount": 42,
+            "timestamp": "2025-02-05T14:40:00Z"
+          },
+          {
+            "periodNumber": 10,
+            "startTime": "15:50",
+            "endTime": "16:40",
+            "occupancyCount": 30,
+            "timestamp": "2025-02-05T15:50:00Z"
+          },
+          {
+            "periodNumber": 11,
+            "startTime": "16:40",
+            "endTime": "17:30",
+            "occupancyCount": 25,
+            "timestamp": "2025-02-05T16:40:00Z"
+          },
+          {
+            "periodNumber": 12,
+            "startTime": "17:30",
+            "endTime": "18:00",
+            "occupancyCount": 8,
+            "timestamp": "2025-02-05T17:30:00Z"
+          }
+        ]
+      }
+    ],
+    "totalCount": 100,
+    "pageSize": 10,
+    "currentPage": 1,
+    "metadata": {
+      "blocks": ["VIB", "NYB", "KAB", "NIB"],
+      "maxOccupancy": 64,
+      "timeZone": "UTC",
+      "lastUpdated": "2025-02-06T18:00:00Z"
+    },
+    "summary": {
+      "averageOccupancy": 42.5,
+      "peakHours": {
+        "time": "10:50-11:40",
+        "averageOccupancy": 57.6
+      },
+      "lowHours": {
+        "time": "17:30-18:00",
+        "averageOccupancy": 10.0
+      }
+    }
+  }

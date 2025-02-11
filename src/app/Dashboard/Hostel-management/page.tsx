@@ -1,16 +1,17 @@
 import React from "react";
 import DefaultLayout from "@/components/Layouts/DefaultLaout";
-import HostelManagement from "@/components/hostel/HostelManagement";
+import RoomStatus from "@/components/hostel-rooms/RoomStatus";
 
 const HostelPage= () => {
   return (
     <DefaultLayout>
       <div >
      
-      <HostelManagement />
+      <RoomStatus />
     </div>
     </DefaultLayout>
   );
 };
 
 export default HostelPage;
+

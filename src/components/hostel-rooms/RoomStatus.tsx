@@ -1,13 +1,13 @@
-// app/components/hostel-rooms/RoomStatus.tsx
-
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Header } from './Header';
 import { Stats } from './Stats';
 import { Filters } from './Filters';
 import { RoomCard } from './RoomCard';
 import { StudentDetailsModal } from './StudentDetailsModal';
 import { Room, Student } from './types';
+
+const POLLING_INTERVAL = 30000; // Poll every 30 seconds
 
 const RoomStatus = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -21,37 +21,53 @@ const RoomStatus = () => {
   const [sortBy, setSortBy] = useState<string>('room_number');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
   
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [studentDetails, setStudentDetails] = useState<Student | null>(null);
   const [loadingStudent, setLoadingStudent] = useState(false);
 
-
-  const fetchRooms = async () => {
-    setLoading(true);
-    setError(null);
+  const fetchRooms = useCallback(async () => {
     try {
-      const response = await fetch('/api/rooms');
+      const response = await fetch('/api/rooms', {
+        // Add cache control headers to prevent caching
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        },
+      });
+      
       if (!response.ok) {
         throw new Error(`Failed to fetch rooms: ${response.statusText}`);
       }
+      
       const data = await response.json();
       if (Array.isArray(data)) {
-        setRooms(data);
+        // Only update state if data has changed
+        const hasDataChanged = JSON.stringify(data) !== JSON.stringify(rooms);
+        if (hasDataChanged) {
+          setRooms(data);
+          setLastUpdated(new Date());
+        }
       } else {
         throw new Error('Invalid data format received');
       }
     } catch (error) {
       console.error('Error fetching rooms:', error);
       setError(error instanceof Error ? error.message : 'Failed to fetch rooms');
-      setRooms([]);
-    } finally {
-      setLoading(false);
     }
-  };
+  }, [rooms]);
+
+  // Initial fetch
   useEffect(() => {
-    fetchRooms();
+    const initialFetch = async () => {
+      setLoading(true);
+      await fetchRooms();
+      setLoading(false);
+    };
+    initialFetch();
   }, []);
   
         // Safe getter methods for unique values
@@ -111,14 +127,25 @@ const RoomStatus = () => {
     });
   };
 
-  const fetchStudentByRoom = async (roomNumber: string, block: string, section: string) => {
+  const fetchStudentByRoom = useCallback(async (roomNumber: string, block: string, section: string) => {
     setLoadingStudent(true);
     try {
       const formattedRoomNumber = `${roomNumber}-${section}`;
-      const response = await fetch(`/api/students/room?roomNumber=${formattedRoomNumber}&block=${block}`);
+      const response = await fetch(
+        `/api/students/room?roomNumber=${formattedRoomNumber}&block=${block}`,
+        {
+          headers: {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+          },
+        }
+      );
+      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+      
       const data = await response.json();
       setStudentDetails(data);
     } catch (error) {
@@ -127,7 +154,7 @@ const RoomStatus = () => {
     } finally {
       setLoadingStudent(false);
     }
-  };
+  }, []);
 
   const handleViewDetails = (room: Room) => {
     if (!room) return;

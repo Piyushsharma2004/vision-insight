@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import pool from '@/lib/db';
-
+// api/students/room/route.ts
 export async function GET(request: Request) {
     try {
         const { searchParams } = new URL(request.url);
@@ -13,9 +13,6 @@ export async function GET(request: Request) {
                 { status: 400 }
             );
         }
-
-        // Split the combined room number (e.g., "316-B") into base number and section
-        const [baseRoomNumber, section] = roomNumber.split('-');
 
         const query = `
             SELECT 
@@ -33,15 +30,17 @@ export async function GET(request: Request) {
         `;
 
         const result = await pool.query(query, [roomNumber, block]);
-
-        if (result.rows.length === 0) {
-            return NextResponse.json(
-                { message: 'No student found for this room' },
-                { status: 404 }
-            );
-        }
-
-        return NextResponse.json(result.rows[0]);
+        
+        // Add cache control headers
+        const response = NextResponse.json(
+            result.rows.length ? result.rows[0] : { message: 'No student found for this room' },
+            { status: result.rows.length ? 200 : 404 }
+        );
+        response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+        response.headers.set('Pragma', 'no-cache');
+        response.headers.set('Expires', '0');
+        
+        return response;
     } catch (error) {
         console.error('Database error:', error);
         return NextResponse.json(

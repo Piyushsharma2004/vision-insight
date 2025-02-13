@@ -34,69 +34,72 @@ const RoomStatus = () => {
 
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-  const fetchRooms = useCallback(async (retryAttempt = 0) => {
-    if (isPollingPaused) return;
+  // Modified fetchRooms function in your RoomStatus component
+const fetchRooms = useCallback(async (retryAttempt = 0) => {
+  if (isPollingPaused) return;
 
-    try {
-      const abortController = new AbortController();
-      const timeoutId = setTimeout(() => abortController.abort(), 8000); // 8 second timeout
+  try {
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(() => abortController.abort(), 8000);
 
-      const response = await fetch('/api/rooms', {
-        headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
-          'Pragma': 'no-cache',
-          'Expires': '0',
-        },
-        signal: abortController.signal
-      });
+    
+    const response = await fetch(`/api/rooms`, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+      signal: abortController.signal,
+      cache: 'no-store'
+    });
 
-      clearTimeout(timeoutId);
-      
-      if (!response.ok) {
-        throw new Error(`Failed to fetch rooms: ${response.statusText}`);
-      }
-      
-      const data = await response.json();
-      
-      if (Array.isArray(data)) {
-        setRooms(prevRooms => {
-          const hasDataChanged = JSON.stringify(data) !== JSON.stringify(prevRooms);
-          if (hasDataChanged) {
-            setLastUpdated(new Date());
-            setRetryCount(0); // Reset retry count on successful fetch
-            setError(null);
-            return data;
-          }
-          return prevRooms;
-        });
-      } else {
-        throw new Error('Invalid data format received');
-      }
-    } catch (error) {
-      console.error('Error fetching rooms:', error);
-      
-      // Handle abort errors separately
-      if (error instanceof Error && error.name === 'AbortError') {
-        setError('Request timeout - retrying...');
-      } else {
-        setError(error instanceof Error ? error.message : 'Failed to fetch rooms');
-      }
-
-      // Implement exponential backoff for retries
-      if (retryAttempt < MAX_RETRIES) {
-        const backoffDelay = RETRY_DELAY * Math.pow(2, retryAttempt);
-        await delay(backoffDelay);
-        setRetryCount(prev => prev + 1);
-        return fetchRooms(retryAttempt + 1);
-      } else {
-        setIsPollingPaused(true);
-        setTimeout(() => {
-          setIsPollingPaused(false);
-          setRetryCount(0);
-        }, 30000); // Wait 30 seconds before resuming polling after max retries
-      }
+    clearTimeout(timeoutId);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch rooms: ${response.statusText}`);
     }
-  }, [isPollingPaused]);
+    
+    const data = await response.json();
+    
+    if (Array.isArray(data)) {
+      setRooms(prevRooms => {
+        const hasDataChanged = JSON.stringify(data) !== JSON.stringify(prevRooms);
+        if (hasDataChanged) {
+          setLastUpdated(new Date());
+          setRetryCount(0);
+          setError(null);
+          return data;
+        }
+        return prevRooms;
+      });
+    } else {
+      throw new Error('Invalid data format received');
+    }
+  } catch (error) {
+    console.error('Error fetching rooms:', error);
+    
+    // Handle abort errors separately
+    if (error instanceof Error && error.name === 'AbortError') {
+      setError('Request timeout - retrying...');
+    } else {
+      setError(error instanceof Error ? error.message : 'Failed to fetch rooms');
+    }
+
+    // Implement exponential backoff for retries
+    if (retryAttempt < MAX_RETRIES) {
+      const backoffDelay = RETRY_DELAY * Math.pow(2, retryAttempt);
+      await delay(backoffDelay);
+      setRetryCount(prev => prev + 1);
+      return fetchRooms(retryAttempt + 1);
+    } else {
+      setIsPollingPaused(true);
+      setTimeout(() => {
+        setIsPollingPaused(false);
+        setRetryCount(0);
+      }, 30000); // Wait 30 seconds before resuming polling after max retries
+    }
+  }
+}, [isPollingPaused]);
 
   // Setup polling with reconnection logic
   useEffect(() => {
@@ -214,6 +217,9 @@ const RoomStatus = () => {
             'Pragma': 'no-cache',
             'Expires': '0',
           },
+          next:{
+            revalidate:0,
+          }
         }
       );
       

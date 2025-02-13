@@ -1,20 +1,35 @@
 // app/api/rooms/route.ts
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import pool from '@/lib/db';
 import { Room } from '@/types';
 
-export async function GET() {
+export const dynamic = 'force-dynamic';  // This is crucial - forces dynamic rendering
+export const revalidate = 0;  // Disable revalidation cache
+
+export async function GET(request: NextRequest) {
   try {
     const result = await pool.query<Room>('SELECT * FROM hostel_rooms ORDER BY block, room_number');
     
-    // Add cache control headers
+    
     const response = NextResponse.json(result.rows);
-    response.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     response.headers.set('Pragma', 'no-cache');
     response.headers.set('Expires', '0');
     
     return response;
+    
   } catch (error) {
-    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
+    console.error('Database query error:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' }, 
+      { 
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      }
+    );
   }
 }

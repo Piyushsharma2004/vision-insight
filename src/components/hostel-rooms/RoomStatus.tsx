@@ -112,7 +112,9 @@ const RoomStatus = () => {
 
     if (!isPollingPaused) {
       pollInterval = setInterval(() => {
-        fetchRooms();
+        var test_var = fetchRooms();
+        console.log(test_var)
+
       }, POLLING_INTERVAL);
     }
 

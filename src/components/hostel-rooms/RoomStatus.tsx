@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Header } from './Header';
 import { Stats } from './Stats';
 import { Filters } from './Filters';
@@ -7,7 +7,7 @@ import { RoomCard } from './RoomCard';
 import { StudentDetailsModal } from './StudentDetailsModal';
 import { Room, Student } from './types';
 
-const POLLING_INTERVAL = 30000; // Poll every 30 seconds
+const POLLING_INTERVAL = 5000; // Poll every 5 seconds
 
 const RoomStatus = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -31,7 +31,6 @@ const RoomStatus = () => {
   const fetchRooms = useCallback(async () => {
     try {
       const response = await fetch('/api/rooms', {
-        // Add cache control headers to prevent caching
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',
@@ -46,11 +45,14 @@ const RoomStatus = () => {
       const data = await response.json();
       if (Array.isArray(data)) {
         // Only update state if data has changed
-        const hasDataChanged = JSON.stringify(data) !== JSON.stringify(rooms);
-        if (hasDataChanged) {
-          setRooms(data);
-          setLastUpdated(new Date());
-        }
+        setRooms(prevRooms => {
+          const hasDataChanged = JSON.stringify(data) !== JSON.stringify(prevRooms);
+          if (hasDataChanged) {
+            setLastUpdated(new Date());
+            return data;
+          }
+          return prevRooms;
+        });
       } else {
         throw new Error('Invalid data format received');
       }
@@ -58,74 +60,89 @@ const RoomStatus = () => {
       console.error('Error fetching rooms:', error);
       setError(error instanceof Error ? error.message : 'Failed to fetch rooms');
     }
-  }, [rooms]);
+  }, []);
 
-  // Initial fetch
+  // Setup polling
   useEffect(() => {
     const initialFetch = async () => {
       setLoading(true);
       await fetchRooms();
       setLoading(false);
     };
+    
     initialFetch();
-  }, []);
-  
-        // Safe getter methods for unique values
-   const getUniqueBlocks = () => {
+
+    // Start polling
+    const pollInterval = setInterval(fetchRooms, POLLING_INTERVAL);
+
+    // Cleanup
+    return () => clearInterval(pollInterval);
+  }, [fetchRooms]);
+
+  // Memoized getter methods for unique values
+  const uniqueBlocks = useMemo(() => {
     const blocks = rooms?.map(room => room.block) || [];
     return ['all', ...Array.from(new Set(blocks))];
-  };
+  }, [rooms]);
 
-  const getUniqueTypes = () => {
+  const uniqueTypes = useMemo(() => {
     const types = rooms?.map(room => room.hostel_type) || [];
     return ['all', ...Array.from(new Set(types))];
-  };
+  }, [rooms]);
 
-  const getUniqueSections = () => {
+  const uniqueSections = useMemo(() => {
     const sections = rooms?.map(room => room.section) || [];
     return ['all', ...Array.from(new Set(sections))];
-  };
+  }, [rooms]);
 
-  const getFilteredAndSortedRooms = () => {
-    // Guard against rooms being undefined or null
+  // Memoized filtered and sorted rooms
+  const filteredAndSortedRooms = useMemo(() => {
     if (!rooms) return [];
 
-    let filteredRooms = rooms.filter(room => {
-      if (!room) return false; // Skip invalid room objects
+    return rooms
+      .filter(room => {
+        if (!room) return false;
 
-      const matchesFilter = 
-        filter === 'all' ? true :
-        filter === 'available' ? !room.status :
-        room.status;
-      
-      const matchesSearch = 
-        room.room_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        room.block?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        room.section?.toLowerCase().includes(searchTerm.toLowerCase());
-      
-      const matchesBlock = selectedBlock === 'all' || room.block === selectedBlock;
-      const matchesType = selectedType === 'all' || room.hostel_type === selectedType;
-      const matchesSection = selectedSection === 'all' || room.section === selectedSection;
-      
-      return matchesFilter && matchesSearch && matchesBlock && matchesType && matchesSection;
-    });
+        const matchesFilter = 
+          filter === 'all' ? true :
+          filter === 'available' ? !room.status :
+          room.status;
+        
+        const matchesSearch = 
+          room.room_number?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          room.block?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          room.section?.toLowerCase().includes(searchTerm.toLowerCase());
+        
+        const matchesBlock = selectedBlock === 'all' || room.block === selectedBlock;
+        const matchesType = selectedType === 'all' || room.hostel_type === selectedType;
+        const matchesSection = selectedSection === 'all' || room.section === selectedSection;
+        
+        return matchesFilter && matchesSearch && matchesBlock && matchesType && matchesSection;
+      })
+      .sort((a, b) => {
+        const compareValue = (val1: any, val2: any) => {
+          if (typeof val1 === 'string') {
+            return val1.localeCompare(val2);
+          }
+          return val1 - val2;
+        };
 
-    return filteredRooms.sort((a, b) => {
-      const compareValue = (val1: any, val2: any) => {
-        if (typeof val1 === 'string') {
-          return val1.localeCompare(val2);
-        }
-        return val1 - val2;
-      };
+        const aValue = a[sortBy as keyof Room];
+        const bValue = b[sortBy as keyof Room];
+        
+        return sortOrder === 'asc' 
+          ? compareValue(aValue, bValue)
+          : compareValue(bValue, aValue);
+      });
+  }, [rooms, filter, searchTerm, selectedBlock, selectedType, selectedSection, sortBy, sortOrder]);
 
-      const aValue = a[sortBy as keyof Room];
-      const bValue = b[sortBy as keyof Room];
-      
-      return sortOrder === 'asc' 
-        ? compareValue(aValue, bValue)
-        : compareValue(bValue, aValue);
-    });
-  };
+  // Memoized room stats
+  const stats = useMemo(() => {
+    const total = filteredAndSortedRooms.length;
+    const occupied = filteredAndSortedRooms.filter(room => room.status).length;
+    const available = total - occupied;
+    return { total, occupied, available };
+  }, [filteredAndSortedRooms]);
 
   const fetchStudentByRoom = useCallback(async (roomNumber: string, block: string, section: string) => {
     setLoadingStudent(true);
@@ -156,24 +173,16 @@ const RoomStatus = () => {
     }
   }, []);
 
-  const handleViewDetails = (room: Room) => {
+  const handleViewDetails = useCallback((room: Room) => {
     if (!room) return;
     setSelectedRoom(room);
     setShowModal(true);
     fetchStudentByRoom(room.room_number, room.block, room.section);
-  };
-  const getRoomStats = () => {
-    const filteredRooms = getFilteredAndSortedRooms();
-    const total = filteredRooms.length;
-    const occupied = filteredRooms.filter(room => room.status).length;
-    const available = total - occupied;
-    return { total, occupied, available };
-  };
-  const stats = getRoomStats();
+  }, [fetchStudentByRoom]);
 
   if (loading) {
     return (
-      <div className="min-h-screen  flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-md text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
           <h2 className="text-xl font-semibold text-gray-700">Loading Rooms...</h2>
@@ -185,7 +194,7 @@ const RoomStatus = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen   flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-md text-center">
           <div className="text-red-500 text-5xl mb-4">⚠️</div>
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Error Loading Rooms</h2>
@@ -210,11 +219,7 @@ const RoomStatus = () => {
           isFilterOpen={isFilterOpen}
           setIsFilterOpen={setIsFilterOpen}
         />
-        <Stats 
-          total={stats.total}
-          available={stats.available}
-          occupied={stats.occupied}
-        />
+        <Stats {...stats} />
       </div>
       
       {isFilterOpen && (
@@ -233,21 +238,21 @@ const RoomStatus = () => {
           setSortOrder={setSortOrder}
           isFilterOpen={isFilterOpen}
           setIsFilterOpen={setIsFilterOpen}
-          uniqueBlocks={getUniqueBlocks()}
-          uniqueTypes={getUniqueTypes()}
-          uniqueSections={getUniqueSections()}
+          uniqueBlocks={uniqueBlocks}
+          uniqueTypes={uniqueTypes}
+          uniqueSections={uniqueSections}
         />
       )}
       
-      {rooms.length === 0 ? (
+      {filteredAndSortedRooms.length === 0 ? (
         <div className="bg-white rounded-3xl shadow-lg p-8 text-center">
           <p className="text-gray-500">No rooms found matching your criteria</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {getFilteredAndSortedRooms().map((room) => (
+          {filteredAndSortedRooms.map((room) => (
             <RoomCard 
-              key={room.id}
+              key={`${room.id}-${room.status}`}
               room={room}
               onViewDetails={handleViewDetails}
             />

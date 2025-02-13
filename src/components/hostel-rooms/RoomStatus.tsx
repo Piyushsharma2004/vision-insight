@@ -7,7 +7,9 @@ import { RoomCard } from './RoomCard';
 import { StudentDetailsModal } from './StudentDetailsModal';
 import { Room, Student } from './types';
 
-const POLLING_INTERVAL = 5000; // Poll every 5 seconds
+const POLLING_INTERVAL = 5000; // 5 seconds
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 1000; // Poll every 5 seconds
 
 const RoomStatus = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -22,33 +24,47 @@ const RoomStatus = () => {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+  const [retryCount, setRetryCount] = useState(0);
+  const [isPollingPaused, setIsPollingPaused] = useState(false);
   
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [studentDetails, setStudentDetails] = useState<Student | null>(null);
   const [loadingStudent, setLoadingStudent] = useState(false);
 
-  const fetchRooms = useCallback(async () => {
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+  const fetchRooms = useCallback(async (retryAttempt = 0) => {
+    if (isPollingPaused) return;
+
     try {
+      const abortController = new AbortController();
+      const timeoutId = setTimeout(() => abortController.abort(), 8000); // 8 second timeout
+
       const response = await fetch('/api/rooms', {
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',
           'Expires': '0',
         },
+        signal: abortController.signal
       });
+
+      clearTimeout(timeoutId);
       
       if (!response.ok) {
         throw new Error(`Failed to fetch rooms: ${response.statusText}`);
       }
       
       const data = await response.json();
+      
       if (Array.isArray(data)) {
-        // Only update state if data has changed
         setRooms(prevRooms => {
           const hasDataChanged = JSON.stringify(data) !== JSON.stringify(prevRooms);
           if (hasDataChanged) {
             setLastUpdated(new Date());
+            setRetryCount(0); // Reset retry count on successful fetch
+            setError(null);
             return data;
           }
           return prevRooms;
@@ -58,11 +74,31 @@ const RoomStatus = () => {
       }
     } catch (error) {
       console.error('Error fetching rooms:', error);
-      setError(error instanceof Error ? error.message : 'Failed to fetch rooms');
-    }
-  }, []);
+      
+      // Handle abort errors separately
+      if (error instanceof Error && error.name === 'AbortError') {
+        setError('Request timeout - retrying...');
+      } else {
+        setError(error instanceof Error ? error.message : 'Failed to fetch rooms');
+      }
 
-  // Setup polling
+      // Implement exponential backoff for retries
+      if (retryAttempt < MAX_RETRIES) {
+        const backoffDelay = RETRY_DELAY * Math.pow(2, retryAttempt);
+        await delay(backoffDelay);
+        setRetryCount(prev => prev + 1);
+        return fetchRooms(retryAttempt + 1);
+      } else {
+        setIsPollingPaused(true);
+        setTimeout(() => {
+          setIsPollingPaused(false);
+          setRetryCount(0);
+        }, 30000); // Wait 30 seconds before resuming polling after max retries
+      }
+    }
+  }, [isPollingPaused]);
+
+  // Setup polling with reconnection logic
   useEffect(() => {
     const initialFetch = async () => {
       setLoading(true);
@@ -72,18 +108,37 @@ const RoomStatus = () => {
     
     initialFetch();
 
-    // Start polling
-    const pollInterval = setInterval(fetchRooms, POLLING_INTERVAL);
+    let pollInterval: NodeJS.Timeout;
 
-    // Cleanup
-    return () => clearInterval(pollInterval);
+    if (!isPollingPaused) {
+      pollInterval = setInterval(() => {
+        fetchRooms();
+      }, POLLING_INTERVAL);
+    }
+
+    return () => {
+      if (pollInterval) {
+        clearInterval(pollInterval);
+      }
+    };
+  }, [fetchRooms, isPollingPaused]);
+
+   // Add reconnection button
+   const handleReconnect = useCallback(async () => {
+    setIsPollingPaused(false);
+    setRetryCount(0);
+    setError(null);
+    await fetchRooms();
   }, [fetchRooms]);
 
-  // Memoized getter methods for unique values
+  // Rest of the memoized functions and UI code remains the same...
   const uniqueBlocks = useMemo(() => {
     const blocks = rooms?.map(room => room.block) || [];
     return ['all', ...Array.from(new Set(blocks))];
   }, [rooms]);
+
+  // Memoized getter methods for unique values
+
 
   const uniqueTypes = useMemo(() => {
     const types = rooms?.map(room => room.hostel_type) || [];
@@ -136,6 +191,7 @@ const RoomStatus = () => {
       });
   }, [rooms, filter, searchTerm, selectedBlock, selectedType, selectedSection, sortBy, sortOrder]);
 
+  
   // Memoized room stats
   const stats = useMemo(() => {
     const total = filteredAndSortedRooms.length;
@@ -200,7 +256,7 @@ const RoomStatus = () => {
           <h2 className="text-xl font-semibold text-gray-700 mb-4">Error Loading Rooms</h2>
           <p className="text-gray-500 mb-6">{error}</p>
           <button 
-            onClick={fetchRooms}
+            onClick={() => fetchRooms()}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
             Try Again
@@ -209,6 +265,36 @@ const RoomStatus = () => {
       </div>
     );
   }
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-md text-center">
+          <div className="text-red-500 text-5xl mb-4">⚠️</div>
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">Error Loading Rooms</h2>
+          <p className="text-gray-500 mb-6">{error}</p>
+          <div className="space-y-4">
+            <button 
+              onClick={handleReconnect}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors w-full"
+            >
+              Reconnect
+            </button>
+            {retryCount > 0 && (
+              <p className="text-sm text-gray-500">
+                Retry attempt {retryCount} of {MAX_RETRIES}
+              </p>
+            )}
+            {isPollingPaused && (
+              <p className="text-sm text-yellow-500">
+                Polling paused. Click reconnect to resume.
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
 
   return (
     <div className="min-h-screen p-2">

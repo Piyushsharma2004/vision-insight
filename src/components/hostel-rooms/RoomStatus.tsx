@@ -7,10 +7,9 @@ import { RoomCard } from './RoomCard';
 import { StudentDetailsModal } from './StudentDetailsModal';
 import { Room, Student } from './types';
 
-const POLLING_INTERVAL = 5000; // 5 seconds
+const POLLING_INTERVAL = 50000000; 
 const MAX_RETRIES = 3;
-const RETRY_DELAY = 1000; // Poll every 5 seconds
-
+const RETRY_DELAY = 1000; 
 const RoomStatus = () => {
   const [rooms, setRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
@@ -246,11 +245,11 @@ const fetchRooms = useCallback(async (retryAttempt = 0) => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-md text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <h2 className="text-xl font-semibold text-gray-700">Loading Rooms...</h2>
-          <p className="text-gray-500 mt-2">Please wait while we fetch the room data</p>
+      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 w-full max-w-md text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 dark:border-blue-400 mx-auto mb-4"></div>
+          <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-200">Loading Rooms...</h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-2">Please wait while we fetch the room data</p>
         </div>
       </div>
     );
@@ -258,42 +257,25 @@ const fetchRooms = useCallback(async (retryAttempt = 0) => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-md text-center">
-          <div className="text-red-500 text-5xl mb-4">⚠️</div>
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Error Loading Rooms</h2>
-          <p className="text-gray-500 mb-6">{error}</p>
-          <button 
-            onClick={() => fetchRooms()}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            Try Again
-          </button>
-        </div>
-      </div>
-    );
-  }
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="bg-white rounded-3xl shadow-lg p-8 w-full max-w-md text-center">
-          <div className="text-red-500 text-5xl mb-4">⚠️</div>
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">Error Loading Rooms</h2>
-          <p className="text-gray-500 mb-6">{error}</p>
+      <div className="min-h-screen flex items-center justify-center dark:bg-gray-900">
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 w-full max-w-md text-center">
+          <div className="text-red-500 dark:text-red-400 text-5xl mb-4">⚠️</div>
+          <h2 className="text-xl font-semibold text-gray-700 dark:text-gray-200 mb-4">Error Loading Rooms</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-6">{error}</p>
           <div className="space-y-4">
             <button 
               onClick={handleReconnect}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors w-full"
+              className="px-4 py-2 bg-blue-500 dark:bg-blue-600 text-white rounded-lg hover:bg-blue-600 dark:hover:bg-blue-700 transition-colors w-full"
             >
               Reconnect
             </button>
             {retryCount > 0 && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 Retry attempt {retryCount} of {MAX_RETRIES}
               </p>
             )}
             {isPollingPaused && (
-              <p className="text-sm text-yellow-500">
+              <p className="text-sm text-yellow-500 dark:text-yellow-400">
                 Polling paused. Click reconnect to resume.
               </p>
             )}
@@ -303,10 +285,9 @@ const fetchRooms = useCallback(async (retryAttempt = 0) => {
     );
   }
 
-
   return (
-    <div className="min-h-screen p-2">
-      <div className="bg-white rounded-3xl shadow-lg p-8 mb-8">
+    <div className="min-h-screen p-2 dark:bg-gray-900">
+      <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 mb-8">
         <Header 
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
@@ -339,8 +320,8 @@ const fetchRooms = useCallback(async (retryAttempt = 0) => {
       )}
       
       {filteredAndSortedRooms.length === 0 ? (
-        <div className="bg-white rounded-3xl shadow-lg p-8 text-center">
-          <p className="text-gray-500">No rooms found matching your criteria</p>
+        <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-8 text-center">
+          <p className="text-gray-500 dark:text-gray-400">No rooms found matching your criteria</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
